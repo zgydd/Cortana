@@ -1,2 +1,2 @@
-# Cortana
+# Lucy
 Core
