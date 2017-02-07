@@ -9,17 +9,13 @@ namespace Lucy;
 
 class LIBRA_CONSTANT {
 
-    private $_PROTOCOL;
-    private $_MAXWAITTIMESTAMP;
-    private $_TIMEOUT;
+    private $_PROTOCOL = 'http';
+    private $_MAXWAITTIMESTAMP = 9.9;
+    private $_TIMEOUT = 300;
     private $_MAPDEFINATION;
     private $_INFODATA;
 
     public function __construct() {
-        $this->_PROTOCOL = 'http';
-        $this->_MAXWAITTIMESTAMP = 9.9;
-        $this->_TIMEOUT = 300;
-
         $this->_MAPDEFINATION = new \stdClass();
         $this->_MAPDEFINATION->fileName = 'map.json';
         $this->_MAPDEFINATION->ipKey = 'serviceIp';
@@ -31,7 +27,15 @@ class LIBRA_CONSTANT {
         $this->_MAPDEFINATION->errEnReachable = 'no reachble route';
 
         $this->_INFODATA = new \stdClass();
-        $this->_INFODATA->testMsg = 'TEST_TIMESTAMP';
+        $this->_INFODATA->testMsg = 'Z_TEST_TIMESTAMP';
+    }
+
+    public function __destruct() {
+        $this->_PROTOCOL = NULL;
+        $this->_MAXWAITTIMESTAMP = NULL;
+        $this->_TIMEOUT = NULL;
+        $this->_MAPDEFINATION = NULL;
+        $this->_INFODATA = NULL;
     }
 
     public function getProtocol() {

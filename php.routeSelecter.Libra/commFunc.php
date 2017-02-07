@@ -1,7 +1,7 @@
 <?php
 
 /*
- * common function for Lucy by PHP
+ * splite by common function for Lucy by PHP
  * base 2017-02-07 Barton Joe
  */
 
