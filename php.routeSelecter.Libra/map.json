@@ -1,5 +1,8 @@
 [{
         "serviceIp": "127.0.0.1",
+        "servicePort": "80"
+    }, {
+        "serviceIp": "127.0.0.1",
         "servicePort": "3000"
     }, {
         "serviceIp": "127.0.0.1",
