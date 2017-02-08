@@ -12,7 +12,6 @@ require_once 'commFunc.php';
 class SCORPIO_CONSTANT {
 
     private $_SCORPIO_DEFINATION = ["serviceId" => 'Z_SRV_0',
-        "serviceName" => 'sample',
         "serviceIp" => '',
         "servicePort" => '20001'];
     private $_TIMEOUT = 2;
@@ -42,12 +41,14 @@ class SCORPIO_CONSTANT {
 
     public function __destruct() {
         $this->_SCORPIO_DEFINATION = NULL;
+        $this->_TIMEOUT = NULL;
         $this->_TARGET_CANCERS = NULL;
     }
 
     public function getDefination() {
         return $this->_SCORPIO_DEFINATION;
     }
+
     public function getTimeOut() {
         return $this->_TIMEOUT;
     }
