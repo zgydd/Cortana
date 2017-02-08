@@ -34,11 +34,12 @@ class Libra {
             $arr = (array) json_decode(file_get_contents($this->filename));
             if (count($arr)) {
                 foreach ($arr as $row) {
-                    if (array_key_exists($mapData->ipKey, $row) && array_key_exists($mapData->portKey, $row)) {
+                    $tmpRecord = (array) $row;
+                    if (array_key_exists($mapData->ipKey, $tmpRecord) && array_key_exists($mapData->portKey, $tmpRecord)) {
                         if ($needRules && _checkRules($row, $selectRules) > 100) {
                             continue;
                         }
-                        array_push($this->routeMap, $this->config->getProtocol() . '://' . $row->serviceIp . ':' . $row->servicePort);
+                        array_push($this->routeMap, $this->config->getProtocol() . '://' . $tmpRecord[$mapData->ipKey] . ':' . $tmpRecord[$mapData->portKey]);
                     } else {
                         //Exception unformatable data
                         $this->route = $mapData->errUnFormatableData;
