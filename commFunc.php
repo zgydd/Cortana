@@ -2,8 +2,8 @@
 
 /*
  * common function for Lucy by PHP
- * add _checkRules 2017-02-08 Barton Joe
- * base 2017-02-07 Barton Joe
+ * add _checkRules                  2017-02-08                  Barton Joe
+ * base                             2017-02-07                  Barton Joe
  */
 
 function _getRequireTimeStamp($url, $timeout = 300, $testMsg = 'TEST_TIMESTAMP') {
