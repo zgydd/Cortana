@@ -41,10 +41,7 @@ function _checkRules($record, $rules) {
                 }
             }
             return 201;
-            break;
         default :
-            break;
+            return 999;
     }
-
-    return 999;
 }
