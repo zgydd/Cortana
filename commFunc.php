@@ -22,17 +22,17 @@ function _getRequireTimeStamp($url, $timeout = 300, $testMsg = 'TEST_TIMESTAMP')
 
 function _getLocalIP() {
     $preg = "/\A((([0-9]?[0-9])|(1[0-9]{2})|(2[0-4][0-9])|(25[0-5]))\.){3}(([0-9]?[0-9])|(1[0-9]{2})|(2[0-4][0-9])|(25[0-5]))\Z/";
-//    exec("ipconfig", $out, $stats);
-//    if (!empty($out)) {
-//        foreach ($out AS $row) {
-//            if (strstr($row, "IP") && strstr($row, ":") && !strstr($row, "IPv6")) {
-//                $tmpIp = explode(":", $row);
-//                if (preg_match($preg, trim($tmpIp[1]))) {
-//                    return trim($tmpIp[1]);
-//                }
-//            }
-//        }
-//    }
+    exec("ipconfig", $out, $stats);
+    if (!empty($out)) {
+        foreach ($out AS $row) {
+            if (strstr($row, "IP") && strstr($row, ":") && !strstr($row, "IPv6")) {
+                $tmpIp = explode(":", $row);
+                if (preg_match($preg, trim($tmpIp[1]))) {
+                    return trim($tmpIp[1]);
+                }
+            }
+        }
+    }
     exec("ifconfig", $out, $stats);
     if (!empty($out)) {
         if (isset($out[1]) && strstr($out[1], 'addr:')) {
@@ -67,10 +67,7 @@ function _checkRules($record, $rules) {
                 }
             }
             return 201;
-            break;
         default :
-            break;
+            return 999;
     }
-
-    return 999;
 }
