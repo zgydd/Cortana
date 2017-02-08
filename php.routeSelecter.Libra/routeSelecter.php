@@ -18,6 +18,13 @@ class Libra {
     private $route;
 
     public function __construct() {
+        $selectRules = NULL;
+        if (func_num_args() > 0) {
+            $selectRules = func_get_arg(0);
+        }
+
+        $needRules = (!is_null($selectRules) && !empty($selectRules));
+
         $this->config = new \Lucy\LIBRA_CONSTANT();
         $mapData = $this->config->getMapDefination();
         $this->filename = $mapData->fileName;
@@ -28,6 +35,9 @@ class Libra {
             if (count($arr)) {
                 foreach ($arr as $row) {
                     if (array_key_exists($mapData->ipKey, $row) && array_key_exists($mapData->portKey, $row)) {
+                        if ($needRules && _checkRules($row, $selectRules) > 100) {
+                            continue;
+                        }
                         array_push($this->routeMap, $this->config->getProtocol() . '://' . $row->serviceIp . ':' . $row->servicePort);
                     } else {
                         //Exception unformatable data
@@ -62,8 +72,7 @@ class Libra {
                 $minTimeStamp = ($ret - $start);
             }
         }
-        if (empty($this->route)) {
-            $mapData = $this->config->getMapDefination();
+        if (is_null($this->route) || empty($this->route)) {
             //Exception unformatable data
             $this->route = $this->config->getMapDefination()->errEnReachable;
         }
@@ -74,6 +83,10 @@ class Libra {
         $minTimeStamp = $this->config->getMaxWaitTime();
         foreach ($this->routeMap as $row) {
             $minTimeStamp = $this->_setMyRoute($row, $minTimeStamp);
+        }
+        if (is_null($this->route) || empty($this->route)) {
+            //Exception unformatable data
+            $this->route = $this->config->getMapDefination()->errEnSuitable;
         }
         return $this->route;
     }
@@ -120,5 +133,4 @@ class Libra {
 //
 //        return $this->route;
 //    }
-
 }

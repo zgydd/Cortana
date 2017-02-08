@@ -14,9 +14,11 @@
         "serviceIp": "127.0.0.1",
         "servicePort": "20000"
     }, {
+        "serviceId": "Z_SRV_0",
         "serviceIp": "127.0.0.1",
         "servicePort": "20001"
     }, {
+        "serviceId": "Z_SRV_0",
         "serviceIp": "127.0.0.1",
         "servicePort": "3000"
     }]

@@ -25,6 +25,7 @@ class LIBRA_CONSTANT {
         $this->_MAPDEFINATION->errEmptyRecord = 'no route in map';
         $this->_MAPDEFINATION->errNoFile = 'no route map';
         $this->_MAPDEFINATION->errEnReachable = 'no reachble route';
+        $this->_MAPDEFINATION->errEnSuitable = 'no suitable route';
 
         $this->_INFODATA = new \stdClass();
         $this->_INFODATA->testMsg = 'Z_TEST_TIMESTAMP';
