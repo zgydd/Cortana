@@ -49,7 +49,6 @@ class Libra {
         $this->filename = NULL;
         $this->routeMap = NULL;
         $this->route = NULL;
-        $this->transfer = NULL;
     }
 
     private function _setMyRoute($row, $minTimeStamp) {
@@ -58,9 +57,6 @@ class Libra {
         if (!$ret) {
             //Remove this route
         } else {
-            if ($this->transfer) {
-                var_dump($ret - $start);
-            }
             if ($minTimeStamp > ($ret - $start)) {
                 $this->route = $row;
                 $minTimeStamp = ($ret - $start);
@@ -74,8 +70,7 @@ class Libra {
         return $minTimeStamp;
     }
 
-    public function selectRoute($transfer = false) {
-        $this->transfer = $transfer;
+    public function selectRoute() {
         $minTimeStamp = $this->config->getMaxWaitTime();
         foreach ($this->routeMap as $row) {
             $minTimeStamp = $this->_setMyRoute($row, $minTimeStamp);
