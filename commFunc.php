@@ -45,6 +45,19 @@ function _getLocalIP() {
             }
         }
     }
+/* For centos
+    exec("/usr/sbin/ifconfig", $out, $stats);
+    if (!empty($out)) {
+        if (isset($out[1]) && strstr($out[1], 'inet')) {
+            $tmpArray = explode(" netmask ", $out[1]);
+            $tmpArray = explode(" ", $tmpArray[0]);
+            array_filter($tmpArray);
+            if (isset($tmpArray[9]) && preg_match($preg, trim($tmpArray[9]))) {
+                return $tmpArray[9];
+            }
+        }
+    }
+ */
     return '127.0.0.1';
 }
 
