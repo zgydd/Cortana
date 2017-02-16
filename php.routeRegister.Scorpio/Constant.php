@@ -12,8 +12,7 @@ require_once 'commFunc.php';
 class SCORPIO_CONSTANT {
 
     private $_SCORPIO_DEFINATION = ["serviceId" => 'Z_SRV_0',
-        "serviceIp" => '',
-        "servicePort" => '20001'];
+        "serviceName" => 'sample', "serviceIp" => '', "servicePort" => '20001'];
     private $_TIMEOUT = 2;
     private $_TARGET_CANCERS = array();
 
