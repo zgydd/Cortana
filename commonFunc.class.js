@@ -95,6 +95,14 @@
             }
             return result;
         },
+        //A common function to padding mark before or after the value
+        _paddingMark: function(value, mark, length, paddingLeft) {
+            var paddingLength = length - value.toString().length;
+            var markContext = '';
+            for (var i = 0; i < paddingLength; i++) markContext += mark;
+            if (paddingLeft) return (markContext + value.toString());
+            else return (value.toString() + markContext);
+        },
         //Use Pythagorean to find a hypotenuse's length
         _getHypotenuse: function(edgeA, edgeB) {
             return Math.sqrt(Math.pow(edgeA, 2) + Math.pow(edgeB, 2));
