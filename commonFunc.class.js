@@ -23,7 +23,22 @@
     var _convolutionS135 = function(matrix, row, col) {
         return (2 * (matrix[row - 2][col - 2] + matrix[row - 1][col - 1] + matrix[row][col] + matrix[row + 1][col + 1] + matrix[row + 2][col + 2]) - (matrix[row - 2][col] + matrix[row - 2][col + 1] + matrix[row - 1][col + 1] + matrix[row - 1][col + 2] + matrix[row][col - 2] + matrix[row][col + 2] + matrix[row + 1][col - 2] + matrix[row + 1][col - 1] + matrix[row + 2][col - 1] + matrix[row + 2][col]));
     };
-    return {
+    var paddingMark = function(value, mark, length, paddingLeft) {
+        var paddingLength = length - value.toString().length;
+        var markContext = '';
+        for (var i = 0; i < paddingLength; i++) markContext += mark;
+        if (paddingLeft) return (markContext + value.toString());
+        else return (value.toString() + markContext);
+    };
+    var traverseClearEvent = function(childrens) {
+        childrens.each(function(i, n) {
+            var ele = $(n);
+            ele.off('click');
+            ele.off('change');
+            if (ele.children().length) traverseClearEvent(ele.children());
+        });
+    };
+    var factory = {
         //Normal
         //Merge two or more object data together
         _mergeObject: function() {
@@ -66,6 +81,14 @@
             }
         },
         //Parse a hex data to char
+        _binary2Int: function(data) {
+            try {
+                return parseInt(data, 2);
+            } catch (e) {
+                console.log(e.message);
+                return -1;
+            }
+        },
         _hex2char: function(data) {
             var a = data.toString().trim();
             switch (a.length) {
@@ -97,11 +120,7 @@
         },
         //A common function to padding mark before or after the value
         _paddingMark: function(value, mark, length, paddingLeft) {
-            var paddingLength = length - value.toString().length;
-            var markContext = '';
-            for (var i = 0; i < paddingLength; i++) markContext += mark;
-            if (paddingLeft) return (markContext + value.toString());
-            else return (value.toString() + markContext);
+            return paddingMark(value, mark, length, paddingLeft);
         },
         //Use Pythagorean to find a hypotenuse's length
         _getHypotenuse: function(edgeA, edgeB) {
@@ -398,6 +417,63 @@
             }
             return matrix;
         },
+        _getBinaryImage: function(imgData, width) {
+            var inner = [];
+            var row = [];
+            for (var i = 0; i < imgData.length; i += 4) {
+                if (imgData[i] === null) continue;
+                if (imgData[i + 3] > 20) row.push(1);
+                else row.push(0);
+                if (row.length === width) {
+                    inner.push(row.slice(0));
+                    row.length = 0;
+                }
+            }
+            return inner;
+        },
+        _registerListener: function(container, func) {
+            if (typeof func !== 'function' || !this._isArray(container)) return;
+            var i = 0;
+            for (i; i < container.length; i++) {
+                if (container[i] === func) break;
+            }
+            if (i < container.length) return;
+            container.push(func);
+        },
+        _unRegisterListener: function(container, func) {
+            if (typeof func !== 'function' || !this._isArray(container)) return;
+            var i = 0;
+            for (i; i < container.length; i++) {
+                if (container[i] === func) break;
+            }
+            if (i < container.length) container.splice(i, 1);
+        },
+        //With prototype.js        
+        _getShownDifferentTime: function(nowDate, timestamp) {
+            var showTime = nowDate.getDiff(timestamp);
+            var contextTime = '';
+            //if (showTime.d) contextTime += showTime.d + 'd';
+            switch (true) {
+                case (showTime.h !== undefined && showTime.h > 0):
+                    contextTime += paddingMark(showTime.h, '0', 2, true) + ':';
+                    if (showTime.m !== undefined && showTime.m > 0)
+                        contextTime += paddingMark(showTime.m, '0', 2, true);
+                    else contextTime += '00';
+                    break;
+                case (showTime.m !== undefined && showTime.m > 0):
+                    contextTime += paddingMark(showTime.m, '0', 2, true) + '\'';
+                    if (showTime.s !== undefined && showTime.s > 0)
+                        contextTime += paddingMark(showTime.s, '0', 2, true) + '\"';
+                    else contextTime += '00\"';
+                    break;
+                case (showTime.s !== undefined && showTime.s > 0):
+                    contextTime += paddingMark(showTime.s, '0', 2, true) + '\"';
+                    break;
+                default:
+                    break;
+            }
+            return contextTime;
+        },
         //With jquery
         //Commit a enter key event as a blur event
         _setEnterCommit: function(e) {
@@ -413,6 +489,18 @@
                     _clearSubDomEvent(ele.children());
                 }
             });
+        },
+        _traverseClearEvent: function(childrens) {
+            traverseClearEvent(childrens);
+        },
+        _getJson: function(path) {
+            var defaultScale = null;
+            $.ajaxSettings.async = false;
+            $.getJSON(path, function(result) {
+                defaultScale = result;
+            });
+            $.ajaxSettings.async = true;
+            return defaultScale;
         },
         //A normal show message function with class(alert-danger,alert-success)
         //and component whitch id is common-message
@@ -482,4 +570,5 @@
             } catch (e) {}
         }
     };
+    return factory;
 });
