@@ -417,6 +417,21 @@
             }
             return matrix;
         },
+        //Row and column conversions
+        _converRowAndColumn: function(matrix) {
+            if (!matrix || !matrix.length || !matrix[0].length) return null;
+            var result = [];
+            for (var i = 0; i < matrix[0].length; i++) {
+                var row = [];
+                for (var j = 0; j < matrix.length; j++) {
+                    row.push(matrix[j][i]);
+                }
+                result.push(row.clone());
+                row.length = 0;
+            }
+            return result;
+        },
+        //Get Binary graphs with canvas's imgData and it's width
         _getBinaryImage: function(imgData, width) {
             var inner = [];
             var row = [];
@@ -431,6 +446,7 @@
             }
             return inner;
         },
+        //Register a event listener to container
         _registerListener: function(container, func) {
             if (typeof func !== 'function' || !this._isArray(container)) return;
             var i = 0;
@@ -440,6 +456,7 @@
             if (i < container.length) return;
             container.push(func);
         },
+        //Unregister a event listener to container
         _unRegisterListener: function(container, func) {
             if (typeof func !== 'function' || !this._isArray(container)) return;
             var i = 0;
